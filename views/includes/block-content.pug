@@ -1,0 +1,276 @@
+ul(class='nav nav-tabs mb-3')
+	li(class="nav-item")
+		a(data-toggle="tab", href="#tab-details", class="nav-link active", role="tab") Details
+	li(class="nav-item")
+		a(data-toggle="tab", href="#tab-json", class="nav-link", role="tab") JSON
+
+- var txCount = result.getblock.tx.length;
+
+div(class="tab-content")
+	div(id="tab-details", class="tab-pane active", role="tabpanel")
+		if (global.specialBlocks && global.specialBlocks[result.getblock.hash])
+			div(class="alert alert-primary shadow-sm", style="padding-bottom: 0;")
+				div(class="float-left", style="width: 55px; height: 55px; font-size: 18px;")
+					i(class="fas fa-certificate fa-2x", style="margin-top: 10px;")
+				h4(class="alert-heading h6 font-weight-bold") #{coinConfig.name} Fun
+
+				// special transaction info
+				- var sbInfo = global.specialBlocks[result.getblock.hash];
+				if (sbInfo.alertBodyHtml)
+					p
+						span !{sbInfo.alertBodyHtml}
+
+						if (sbInfo.referenceUrl && sbInfo.referenceUrl.trim().length > 0 && sbInfo.alertBodyHtml.indexOf(sbInfo.referenceUrl) == -1)
+							span  
+								a(href=sbInfo.referenceUrl) Read more
+
+				else
+					p
+						span #{sbInfo.summary}
+
+						if (sbInfo.referenceUrl && sbInfo.referenceUrl.trim().length > 0)
+							span  
+								a(href=sbInfo.referenceUrl) Read more
+
+		div(class="card mb-3 shadow-sm")
+			div(class="card-header")
+				span(class="h6") Summary
+			div(class="card-body")
+				div(class="row")
+					div(class="col-md-6")
+						div(class="row")
+							div(class="summary-split-table-label") Previous Block
+							div(class="summary-split-table-content monospace")
+								if (result.getblock.previousblockhash)
+									a(class="word-wrap", href=("/block/" + result.getblock.previousblockhash)) #{result.getblock.previousblockhash}
+									br
+									span (##{(result.getblock.height - 1).toLocaleString()})
+
+								else if (result.getblock.hash == genesisBlockHash)
+									span None (genesis block)
+
+						div(class="row")
+							div(class="summary-split-table-label") Timestamp
+							div(class="summary-split-table-content monospace")
+								span #{moment.utc(new Date(result.getblock.time * 1000)).format("Y-MM-DD HH:mm:ss")} utc
+								- var timeAgoTime = result.getblock.time;
+								include ./time-ago.pug
+
+						div(class="row")
+							div(class="summary-split-table-label") Transactions
+							div(class="summary-split-table-content monospace") #{result.getblock.tx.length.toLocaleString()}
+
+						div(class="row")
+							div(class="summary-split-table-label") Total Fees
+							div(class="summary-split-table-content monospace")
+								- var currencyValue = new Decimal(result.getblock.totalFees);
+								include ./value-display.pug
+
+						if (result.getblock.totalFees > 0)
+							div(class="row")
+								div(class="summary-split-table-label") Average Fee
+								div(class="summary-split-table-content monospace")
+									- var currencyValue = new Decimal(result.getblock.totalFees).dividedBy(result.getblock.tx.length);
+									include ./value-display.pug
+
+						- var blockRewardMax = coinConfig.blockRewardFunction(result.getblock.height);
+						- var coinbaseTxTotalOutputValue = new Decimal(0);
+						each vout in result.getblock.coinbaseTx.vout
+							- coinbaseTxTotalOutputValue = coinbaseTxTotalOutputValue.plus(new Decimal(vout.value));
+
+						if (coinbaseTxTotalOutputValue < blockRewardMax)
+							div(class="row")
+								div(class="summary-split-table-label") Fees Destroyed
+								div(class="summary-split-table-content monospace text-warning")
+									- var currencyValue = new Decimal(blockRewardMax).minus(coinbaseTxTotalOutputValue);
+									include ./value-display.pug
+
+									a(class="ml-2", data-toggle="tooltip", title="The miner of this block failed to collect this value. As a result, it is lost.")
+										i(class="fas fa-info-circle")
+
+						if (result.getblock.weight)
+							div(class="row")
+								div(class="summary-split-table-label") Weight
+								div(class="summary-split-table-content monospace")
+									span(style="") #{result.getblock.weight.toLocaleString()} wu 
+
+									span(class="text-muted")  (#{new Decimal(100 * result.getblock.weight / coinConfig.maxBlockWeight).toDecimalPlaces(2)}% full)
+
+									- var fullPercent = new Decimal(100 * result.getblock.weight / coinConfig.maxBlockWeight).toDecimalPlaces(0);
+
+									div(class="row")
+										div(class="col-md-10 col-lg-8 col-12")
+											div(class="progress my-1 mr-2", style="height: 4px;")
+												div(class="progress-bar", role="progressbar", style=("width: " + fullPercent + "%;"), aria-valuenow=parseInt(100 * result.getblock.weight / coinConfig.maxBlockWeight), aria-valuemin="0" ,aria-valuemax="100")
+									
+
+						div(class="row")
+							div(class="summary-split-table-label") Size
+							div(class="summary-split-table-content monospace") #{result.getblock.size.toLocaleString()} bytes
+
+						div(class="row")
+							div(class="summary-split-table-label") Confirmations
+							div(class="summary-split-table-content monospace")
+								if (result.getblock.confirmations < 6)
+									span(class="font-weight-bold text-warning") #{result.getblock.confirmations.toLocaleString()} 
+										a(data-toggle="tooltip", title="Fewer than 6 confirmations is generally considered 'unsettled' for high-value transactions. The applicability of this guidance may vary.")
+											i(class="fas fa-unlock-alt")
+								else
+									span(class="font-weight-bold text-success font-weight-bold") #{result.getblock.confirmations.toLocaleString()} 
+										a(data-toggle="tooltip", title="6 confirmations is generally considered 'settled'. High-value transactions may require more; low-value transactions may require less.")
+											i(class="fas fa-lock")
+
+
+					div(class="col-md-6")
+						div(class="row")
+							div(class="summary-split-table-label") Next Block
+							div(class="summary-split-table-content monospace")
+								if (result.getblock.nextblockhash)
+									a(href=("/block/" + result.getblock.nextblockhash)) #{result.getblock.nextblockhash}
+									br
+									span (##{(result.getblock.height + 1).toLocaleString()})
+								else
+									span None (latest block)
+
+						div(class="row")
+							div(class="summary-split-table-label") Difficulty
+							div(class="summary-split-table-content monospace")
+								- var difficultyData = utils.formatLargeNumber(result.getblock.difficulty, 3);
+								
+								span(title=parseFloat(result.getblock.difficulty).toLocaleString(), data-toggle="tooltip")
+									span #{difficultyData[0]}
+									span  x 10
+									sup #{difficultyData[1].exponent}
+
+						div(class="row")
+							div(class="summary-split-table-label") Version
+							div(class="summary-split-table-content monospace") 0x#{result.getblock.versionHex}
+								span(class="text-muted")  (decimal: #{result.getblock.version})
+
+						div(class="row")
+							div(class="summary-split-table-label") Nonce
+							div(class="summary-split-table-content monospace") #{result.getblock.nonce}
+
+						div(class="row")
+							div(class="summary-split-table-label") Bits
+							div(class="summary-split-table-content monospace") #{result.getblock.bits}
+
+						div(class="row")
+							div(class="summary-split-table-label") Merkle Root
+							div(class="summary-split-table-content monospace") #{result.getblock.merkleroot}
+
+						div(class="row")
+							div(class="summary-split-table-label") Chainwork
+							div(class="summary-split-table-content monospace")
+								- var chainworkData = utils.formatLargeNumber(parseInt("0x" + result.getblock.chainwork), 2);
+
+								span #{chainworkData[0]}
+								span  x 10
+								sup #{chainworkData[1].exponent}
+								span  hashes
+								
+								span(class="text-muted")  (#{result.getblock.chainwork.replace(/^0+/, '')})
+
+						if (result.getblock.miner)
+							div(class="row")
+								div(class="summary-split-table-label") Miner
+								div(class="summary-split-table-content monospace")
+									if (result.getblock.miner)
+										span #{result.getblock.miner.name} 
+										if (result.getblock.miner.identifiedBy)
+											span(data-toggle="tooltip", title=("Identified by: " + result.getblock.miner.identifiedBy))
+												i(class="fas fa-info-circle")
+									else
+										span ? 
+										span(data-toggle="tooltip", title="Unable to identify miner")
+											i(class="fas fa-info-circle")
+									
+
+		div(class="card mb-3 shadow-sm")
+			div(class="card-header")
+				div(class="row")
+					div(class="col-md-4")
+						h2(class="h6 mb-0") #{txCount.toLocaleString()} 
+							if (txCount == 1)
+								span Transaction
+							else
+								span Transactions
+
+					if (!config.demoSite && !crawlerBot && txCount > 20)
+						div(class="col-md-8 text-right")
+							span(class="mr-2") Show
+							div(class="btn-group", role="group")
+								a(href=(paginationBaseUrl + "?limit=20"), class="btn btn-sm btn-primary px-2", class=((limit == 20 && txCount > limit) ? "active" : false)) 20
+								
+								if (txCount > 50)
+									a(href=(paginationBaseUrl + "?limit=50"), class="btn btn-sm btn-primary px-2", class=(limit == 50 ? "active" : false)) 50
+								
+								if (txCount > 100)
+									a(href=(paginationBaseUrl + "?limit=100"), class="btn btn-sm btn-primary px-2", class=(limit == 100 ? "active" : false)) 100
+								
+								a(href=(paginationBaseUrl + "?limit=3000"), class="btn btn-sm btn-primary px-2", class=(limit >= txCount ? "active" : false)) all
+
+			- var fontawesomeInputName = "sign-in-alt";
+			- var fontawesomeOutputName = "sign-out-alt";
+
+			div(class="card-body")
+				each tx, txIndex in result.transactions
+					//pre
+					//	code(class="json bg-light") #{JSON.stringify(tx, null, 4)}
+					div(class=("xcard bg-light rounded shadow-sm " + ((txIndex < (result.transactions.length - 1) || txCount > limit) ? "mb-4" : "")))
+						div(class="card-header monospace")
+							if (tx && tx.txid)
+								span ##{(txIndex + offset + 1).toLocaleString()}
+								span  &ndash; 
+								a(href=("/tx/" + tx.txid)) #{tx.txid}
+
+								if (global.specialTransactions && global.specialTransactions[tx.txid])
+									span  
+									a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
+										i(class="fas fa-certificate text-primary")
+									
+						div(class="card-body px-lg-3 px-2")
+							//pre
+							//	code(class="json bg-light") #{JSON.stringify(result.txInputsByTransaction[tx.txid], null, 4)}
+							if (true)
+								- var txInputs = result.txInputsByTransaction[tx.txid];
+								- var blockHeight = result.getblock.height;
+
+								include ./transaction-io-details.pug
+								
+					//pre
+					//	code(class="json bg-light") #{JSON.stringify(tx, null, 4)}
+
+				if (!crawlerBot && txCount > limit)
+					- var pageNumber = offset / limit + 1;
+					- var pageCount = Math.floor(txCount / limit);
+					- if (pageCount * limit < txCount) {
+						- pageCount++;
+					- }
+					- var paginationUrlFunction = function(x) {
+						- return paginationBaseUrl + "?limit=" + limit + "&offset=" + ((x - 1) * limit);
+					- }
+					
+					hr
+
+					include ./pagination.pug
+					
+	div(id="tab-json", class="tab-pane", role="tabpanel")
+		- var blockDetails = JSON.parse(JSON.stringify(result.getblock));
+		- blockDetails.tx = "See 'Transaction IDs'";
+
+		ul(class='nav nav-pills mb-3')
+			li(class="nav-item")
+				a(data-toggle="tab", href="#tab-json-block-summary", class="nav-link active", role="tab") Block Summary
+			li(class="nav-item")
+				a(data-toggle="tab", href="#tab-json-tx-ids", class="nav-link", role="tab") Transaction IDs
+
+		div(class="tab-content")
+			div(id="tab-json-block-summary", class="tab-pane active", role="tabpanel")
+				pre
+					code(class="json bg-light") #{JSON.stringify(blockDetails, null, 4)}
+
+			div(id="tab-json-tx-ids", class="tab-pane", role="tabpanel")
+				pre
+					code(class="json bg-light") #{JSON.stringify(result.getblock.tx, null, 4)}
+

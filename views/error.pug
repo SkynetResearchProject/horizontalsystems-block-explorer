@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	h1 Error
+	hr
+
+	if (message)
+		pre
+			code(class="json bg-light") !{message}
+	else
+		p Unknown error
+
+	if (error)
+		h2 #{error.status}
+		pre
+			code(class="json bg-light") #{error.stack}

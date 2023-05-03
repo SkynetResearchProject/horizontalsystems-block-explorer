@@ -1,0 +1,176 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="utf-8")
+		meta(name="csrf-token", content=csrfToken)
+		meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no")
+
+		link(rel="stylesheet", href="/css/fonts.css", integrity="sha384-XOmmu8j3C2MFUXRVGg8VWYNwlhEkSNb0rW/4e7bi3F56S6PejEmBUQDGZofQyjbL")
+		link(rel="stylesheet", href="/css/highlight.min.css", integrity="sha384-zhIsEafzyQWHSoMCQ4BfT8ZlRXQyIFwAHAJn32PNdsb8n6tVysGZSLpEEIvCskw4")
+
+
+		if (session.uiTheme && session.uiTheme == "dark")
+			link(rel="stylesheet", href="/css/bootstrap-dark-2.css", integrity="")
+			link(rel="stylesheet", href="/css/dark-touchups.css", integrity="")
+
+		else
+			link(rel="stylesheet", href="/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T")
+
+
+		link(rel='stylesheet', href='/css/styling.css')
+
+		link(rel="icon", type="image/png", href=("/img/logo/" + config.coin.toLowerCase() + ".png"))
+
+		block headContent
+			title Explorer
+
+	body(class="bg-dark")
+		nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
+			div(class="container")
+				a(class="navbar-brand", href="/")
+					span
+						if (coinConfig.logoUrl)
+							img(src=coinConfig.logoUrl, class="header-image", alt="logo")
+						span #{coinConfig.siteTitle}
+
+				button(type="button", class="navbar-toggler navbar-toggler-right", data-toggle="collapse", data-target="#navbarNav", aria-label="collapse navigation")
+					span(class="navbar-toggler-icon")
+
+				div(class="collapse navbar-collapse", id="navbarNav")
+					if (client)
+						ul(class="navbar-nav mr-auto")
+							if (false)
+								li(class="nav-item")
+									a(href="/about", class="nav-link")
+										span About
+
+							li(class="nav-item dropdown")
+								a(href="/blocks", class="nav-link")
+									span Blocks
+
+							li(class="nav-item dropdown")
+								a(href="/unconfirmed-tx", class="nav-link")
+									span Transactions
+
+							if (config.site.header.dropdowns)
+								each dropdown, ddIndex in config.site.header.dropdowns
+									li(class="nav-item dropdown")
+										a(class="nav-link dropdown-toggle", href="javascript:void(0)", role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+											span  #{dropdown.title}
+										div(class="dropdown-menu", aria-label=(dropdown.title + " Items"))
+											each dropdownLink in dropdown.links
+												a(class="dropdown-item", href=dropdownLink.url)
+													if (dropdownLink.imgUrl)
+														img(src=dropdownLink.imgUrl, style="width: 24px; height: 24px; margin-right: 8px;", alt=dropdownLink.name)
+													span  #{dropdownLink.name}
+
+
+						form(method="post", action="/search", class="form-inline mr-3")
+							input(type="hidden", name="_csrf", value=csrfToken)
+							div(class="input-group input-group-sm input-group-filter")
+								input(type="text", class="form-control form-control-sm", name="query", placeholder="Block Height/Hash, TxId or Address", value=(query))
+								div(class="input-group-append")
+									button(type="submit", class="btn btn-yellow")
+										i(class="fas fa-search")
+
+		- var bodyBgColor = "#ffffff;";
+		if (session.uiTheme && session.uiTheme == "dark")
+			- bodyBgColor = "#0c0c0c;";
+
+		div(class="pb-4 pt-3 pt-md-4", style=("background-color: " + bodyBgColor))
+			div(class="container px-2 px-sm-3")
+				if (userMessage)
+					div(class="alert", class=(userMessageType ? ("alert-"  + userMessageType) : "alert-warning"), role="alert")
+						span !{userMessage}
+
+				block content
+
+				div(style="margin-bottom: 30px;")
+
+				if (config.demoSite)
+					include ./includes/donation-modal.pug
+
+		footer(class="footer border-top border-yellow bg-dark pt-3 pb-1 px-3 text-white", style="border-width: 5px !important;")
+			div(class="container")
+				div(class="row")
+					div(class="col-md-5")
+						dl
+							dt Source
+							dd
+								a(href="https://github.com/horizontalsystems/block-explorer") github.com/horizontalsystems/block-explorer
+
+								if (global.sourcecodeProjectMetadata)
+									div(class="mt-2")
+										a(href="https://github.com/horizontalsystems/block-explorer", class="btn btn-primary btn-sm mr-3 mb-1 text-decoration-none")
+											i(class="fas fa-star mr-2")
+											span(class="mr-2") Star
+											span(class="badge bg-white text-dark") #{global.sourcecodeProjectMetadata.stargazers_count}
+
+										a(href="https://github.com/horizontalsystems/block-explorer/fork", class="btn btn-primary btn-sm mr-3 mb-1 text-decoration-none")
+											i(class="fas fa-code-branch mr-2")
+											span(class="mr-2") Fork
+											span(class="badge bg-white text-dark") #{global.sourcecodeProjectMetadata.forks_count}
+
+
+							if (sourcecodeVersion)
+								dt Running Version
+								dd
+									a(href=("https://github.com/horizontalsystems/block-explorer/commit/" + sourcecodeVersion)) #{sourcecodeVersion}
+									span(style="color: #ccc;")  (#{sourcecodeDate})
+
+							if (config.demoSite)
+								dt Public Demos
+								dd
+									if (coinConfig.demoSiteUrl)
+										a(href=coinConfig.demoSiteUrl) #{coinConfig.demoSiteUrl}
+									else
+										a(href="https://btc-explorer.chaintools.io") https://btc-explorer.chaintools.io
+
+									div(class="mt-2")
+										- var demoSiteCoins = ["BTC", "LTC"];
+										each demoSiteCoin in demoSiteCoins
+											a(href=coinConfigs[demoSiteCoin].demoSiteUrl, class="mr-2", title=coinConfigs[demoSiteCoin].siteTitle)
+												img(src=("/img/logo/" + demoSiteCoin.toLowerCase() + ".svg"), alt=demoSiteCoin.toLowerCase())
+
+										a(href="https://lightning.chaintools.io", class="mr-2", title="Lightning Explorer")
+											img(src=("/img/logo/lightning.svg"), style="width: 32px; height: 32px;", alt="lightning")
+
+					div(class="col-md-7 text-md-right")
+						dl
+							dd
+								span Horizontal Systems DAO
+								br
+								a(href="http://horizontalsystems.io/")
+									span www.horizontalsystems.io
+
+		script(src="/js/jquery.min.js", integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=")
+		script(src="/js/popper.min.js", integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut")
+		script(src="/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM")
+		script(defer, src="/js/fontawesome.min.js", integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7")
+
+		script(src="/js/highlight.min.js", integrity="sha384-xLrpH5gNLD6HMLgeDH1/p4FXigQ8T9mgNm+EKtCSXL0OJ5i1bnSi57dnwFuUMM9/")
+
+		script.
+			$(document).ready(function() {
+				$('[data-toggle="tooltip"]').tooltip();
+				$('[data-toggle="popover"]').popover({html:true, container:"body"});
+			});
+
+			hljs.initHighlightingOnLoad();
+
+		if (config.credentials.sentryUrl && config.credentials.sentryUrl.length > 0)
+			script(src="/js/sentry.min.js", integrity="sha384-da/Bo2Ah6Uw3mlhl6VINMblg2SyGbSnULKrukse3P5D9PTJi4np9HoKvR19D7zOL", crossorigin="anonymous")
+			script.
+				Sentry.init({ dsn: '#{config.credentials.sentryUrl}' });
+
+		if (config.credentials.googleAnalyticsTrackingId && config.credentials.googleAnalyticsTrackingId.trim().length > 0)
+			script(async, src=("https://www.googletagmanager.com/gtag/js?id=" + config.credentials.googleAnalyticsTrackingId))
+			script.
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', '#{config.credentials.googleAnalyticsTrackingId}');
+
+
+		block endOfBody
