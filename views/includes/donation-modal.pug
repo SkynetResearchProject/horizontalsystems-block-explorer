@@ -30,7 +30,7 @@
 						form(method="POST" action=(config.donations.btcpayserver.host + "/api/v1/invoices"), style="display: inline;")
 							input(type='hidden' name='storeId' value=config.donations.btcpayserver.storeId)
 							input(type='hidden' name='price' value="0.00000001")
-							input(type='hidden' name='currency' value='BTC')
+							input(type='hidden' name='currency' value='SKYR')
 							input(type='hidden' name='notifyEmail' value=config.donations.btcpayserver.notifyEmail)
 
 							button.btn.btn-primary.btn-lg(type='submit', class="mr-2 mb-2")

@@ -40,7 +40,10 @@ div(class="row monospace")
 								div(class="tx-io-desc")
 									if (txVin.coinbase)
 										span(class="rounded bg-primary text-white px-2 py-1 mr-2") coinbase
-										span Newly minted coins
+										if (coinConfig.defaultCurrencyUnit.name = "SKYR")
+											span   &nbsp;&nbsp;&nbsp;POS
+										else
+											span Newly minted coins
 									else
 										if (vout && vout.scriptPubKey && vout.scriptPubKey.addresses)
 											div(class="word-wrap")
@@ -61,7 +64,10 @@ div(class="row monospace")
 
 								div(class="tx-io-value")
 									if (txVin.coinbase)
-										- var currencyValue = coinConfig.blockRewardFunction(blockHeight);
+										if (coinConfig.defaultCurrencyUnit.name == "SKYR")
+											- var currencyValue = 0
+										else	
+											- var currencyValue = coinConfig.blockRewardFunction(blockHeight);
 										include ./value-display.pug
 									else
 										if (vout && vout.value)
@@ -189,8 +195,14 @@ div(class="row monospace")
 											span #{utils.hex2ascii(vout.scriptPubKey.hex)}
 
 							div(class="tx-io-value")
-								- var currencyValue = vout.value;
-								include ./value-display.pug
+								if (vout.value > totalIOValues.input)
+									- var currencyValue = vout.value - totalIOValues.input;
+									include ./value-display.pug
+									br
+									span(class="small") #{utils.formatCurrencyAmount(vout.value, currencyFormatType)}
+								else
+									- var currencyValue = vout.value; // <- for earch vouts/adresses
+									include ./value-display.pug
 
 				hr
 

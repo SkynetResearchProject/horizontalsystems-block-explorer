@@ -39,7 +39,8 @@ for (var i = 0; i < electrumXServerUriStrings.length; i++) {
 	}
 });
 
-["BTCEXP_NO_RATES", "BTCEXP_UI_SHOW_TOOLS_SUBHEADER"].forEach(function(item) {
+//["BTCEXP_NO_RATES", "BTCEXP_UI_SHOW_TOOLS_SUBHEADER"].forEach(function(item) {
+["BTCEXP_NO_RATES"].forEach(function(item) {
 	if (process.env[item] === undefined) {
 		process.env[item] = "true";
 	}
@@ -139,16 +140,16 @@ module.exports = {
 		header:{
 			showToolsSubheader:(process.env.BTCEXP_UI_SHOW_TOOLS_SUBHEADER == "true"),
 			dropdowns:[
-				{
-					title:"Networks",
-					links:[
-						{name: "Bitcoin", url:"https://btc.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
-						{name: "Bitcoin (Testnet)", url:"http://btc-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
-						{name: "Bitcoin Cash", url:"https://bch.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
-						{name: "Bitcoin Cash (Testnet)", url:"http://bch-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
-						{name: "Ethereum", url:"https://eth.horizontalsystems.xyz", imgUrl:"/img/logo/eth.svg"},
-					]
-				}
+				//{
+					//title:"Networks",
+					//links:[
+						//{name: "Bitcoin", url:"https://btc.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
+						//{name: "Bitcoin (Testnet)", url:"http://btc-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
+						//{name: "Bitcoin Cash", url:"https://bch.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
+						//{name: "Bitcoin Cash (Testnet)", url:"http://bch-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
+						//{name: "Ethereum", url:"https://eth.horizontalsystems.xyz", imgUrl:"/img/logo/eth.svg"},
+					//]
+				//}
 			]
 		}
 	},

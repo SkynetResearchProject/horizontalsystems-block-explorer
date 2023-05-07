@@ -85,7 +85,7 @@ block content
 									a(href=("/block/" + result.getrawtransaction.blockhash)) #{result.getrawtransaction.blockhash}
 									if (result.getblock.height)
 										br
-										span (##{result.getblock.height.toLocaleString()})
+										span (##{result.getblock.height.toString()})
 
 						if (isTxConfirmed)
 							div(class="row")
@@ -104,13 +104,13 @@ block content
 							div(class="summary-table-label") Size
 							div(class="summary-table-content monospace")
 								if (result.getrawtransaction.vsize != result.getrawtransaction.size)
-									span #{result.getrawtransaction.vsize.toLocaleString()} 
+									span #{result.getrawtransaction.vsize} 									
 									span(title="Virtual Bytes", data-toggle="tooltip") vB
 									br
-									span(class="text-muted") (#{result.getrawtransaction.size.toLocaleString()} B)
+									span(class="text-muted") (#{result.getrawtransaction.size.toString()} B)
 
 								else
-									span #{result.getrawtransaction.size.toLocaleString()} B
+									span #{result.getrawtransaction.size.toString()} B
 
 						if (result.getrawtransaction.locktime > 0)
 							div(class="row")
@@ -118,7 +118,7 @@ block content
 								div(class="summary-table-content monospace")
 									if (result.getrawtransaction.locktime < 500000000)
 										span Spendable in block 
-										a(href=("/block-height/" + result.getrawtransaction.locktime)) #{result.getrawtransaction.locktime.toLocaleString()}
+										a(href=("/block-height/" + result.getrawtransaction.locktime)) #{result.getrawtransaction.locktime.toString()}
 										span  or later 
 										a(href="https://bitcoin.org/en/developer-guide#locktime-and-sequence-number", data-toggle="tooltip", title="More info about locktime", target="_blank") 
 											i(class="fas fa-info-circle")
@@ -138,7 +138,7 @@ block content
 										strong(class="text-warning") #{result.getrawtransaction.confirmations}
 
 									else
-										strong(class="text-success") #{result.getrawtransaction.confirmations.toLocaleString()}
+										strong(class="text-success") #{result.getrawtransaction.confirmations.toString()}
 
 
 						if (result.getrawtransaction.vin[0].coinbase)
@@ -215,7 +215,7 @@ block content
 				div(class="card mb-3 shadow-sm")
 					div(class="card-header")
 						h2(class="h6 mb-0")
-							span #{result.getrawtransaction.vin.length.toLocaleString()} 
+							span #{result.getrawtransaction.vin.length.toString()} 
 							if (result.getrawtransaction.vin.length == 1)
 								span Input
 							else
@@ -223,7 +223,7 @@ block content
 
 							span , 
 
-							span #{result.getrawtransaction.vout.length.toLocaleString()} 
+							span #{result.getrawtransaction.vout.length.toString()} 
 							if (result.getrawtransaction.vout.length == 1)
 								span Output
 							else
