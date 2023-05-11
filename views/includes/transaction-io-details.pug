@@ -1,5 +1,6 @@
 - var fontawesomeInputName = "sign-in-alt";
 - var fontawesomeOutputName = "sign-out-alt";
+- var scriptPubKeyType = "";
 
 - var totalIOValues = utils.getTxTotalInputOutputValues(tx, txInputs, blockHeight);
 
@@ -40,7 +41,7 @@ div(class="row monospace")
 								div(class="tx-io-desc")
 									if (txVin.coinbase)
 										span(class="rounded bg-primary text-white px-2 py-1 mr-2") coinbase
-										if (coinConfig.defaultCurrencyUnit.name = "SKYR")
+										if (process.env.BTCEXP_COIN_TYPE == "POS")
 											span   &nbsp;&nbsp;&nbsp;POS
 										else
 											span Newly minted coins
@@ -64,7 +65,7 @@ div(class="row monospace")
 
 								div(class="tx-io-value")
 									if (txVin.coinbase)
-										if (coinConfig.defaultCurrencyUnit.name == "SKYR")
+										if (process.env.BTCEXP_COIN_TYPE == "POS")
 											- var currencyValue = 0
 										else	
 											- var currencyValue = coinConfig.blockRewardFunction(blockHeight);
@@ -183,6 +184,7 @@ div(class="row monospace")
 
 									else
 										span(class="monospace")
+											- var scriptPubKeyType = vout.scriptPubKey.type
 											span(class="text-warning font-weight-bold") Unable to decode output:
 											br
 											span(class="font-weight-bold") type: 
@@ -195,11 +197,12 @@ div(class="row monospace")
 											span #{utils.hex2ascii(vout.scriptPubKey.hex)}
 
 							div(class="tx-io-value")
-								if (vout.value > totalIOValues.input)
+								if (vout.value > totalIOValues.input && scriptPubKeyType == "nonstandard")
 									- var currencyValue = vout.value - totalIOValues.input;
 									include ./value-display.pug
 									br
 									span(class="small") #{utils.formatCurrencyAmount(vout.value, currencyFormatType)}
+									- var scriptPubKeyType = ""
 								else
 									- var currencyValue = vout.value; // <- for earch vouts/adresses
 									include ./value-display.pug

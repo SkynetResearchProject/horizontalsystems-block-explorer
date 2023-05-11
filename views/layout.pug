@@ -48,13 +48,19 @@ html(lang="en")
 								a(href="/blocks", class="nav-link")
 									span Blocks
 
-							li(class="nav-item dropdown")
-								a(href="/unconfirmed-tx", class="nav-link")
-									span Transactions
+							if (process.env.BTCEXP_COIN_TYPE != "POS")
+								li(class="nav-item dropdown")
+									a(href="/unconfirmed-tx", class="nav-link")
+										span Transactions
 
-							//li(class="nav-item dropdown")
-							//	a(href="/masternodes", class="nav-link")
-							//		span Masternodes
+							if (process.env.BTCEXP_COIN_TYPE == "POS")
+								li(class="nav-item dropdown")
+									a(href="/masternodes", class="nav-link")
+										span Masternodes
+							
+							li(class="nav-item dropdown")
+								a(href="/peers", class="nav-link")
+									span Peers
 									
 							if (config.site.header.dropdowns)
 								each dropdown, ddIndex in config.site.header.dropdowns

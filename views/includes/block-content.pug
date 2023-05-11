@@ -78,7 +78,7 @@ div(class="tab-content")
 						each vout in result.getblock.coinbaseTx.vout
 							- coinbaseTxTotalOutputValue = coinbaseTxTotalOutputValue.plus(new Decimal(vout.value));
 
-						if (coinConfig.defaultCurrencyUnit.name = "SKYR")
+						if (process.env.BTCEXP_COIN_TYPE == "POS")
 							if (coinbaseTxTotalOutputValue < blockRewardMax)
 								div(class="row")
 									div(class="summary-split-table-label") Fees Destroyed

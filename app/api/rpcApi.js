@@ -21,7 +21,9 @@ var rpcQueue = async.queue(function(task, callback) {
 
 }, config.rpcConcurrency);
 
-
+function getBlockCount() {
+	return getRpcData("getblockcount");
+}
 
 function getBlockchainInfo() {
 	return getRpcData("getblockchaininfo");
@@ -49,6 +51,10 @@ function getUptimeSeconds() {
 
 function getPeerInfo() {
 	return getRpcData("getpeerinfo");
+}
+
+function listMasternodes() {
+	return getRpcData("listmasternodes");
 }
 
 function getRawMempool() {
@@ -196,6 +202,7 @@ function getRpcDataWithParams(request) {
 
 
 module.exports = {
+	getBlockCount:	getBlockCount,
 	getBlockchainInfo: getBlockchainInfo,
 	getNetworkInfo: getNetworkInfo,
 	getNetTotals: getNetTotals,
@@ -210,5 +217,6 @@ module.exports = {
 	getRpcMethodHelp: getRpcMethodHelp,
 	getAddress: getAddress,
 	getPeerInfo: getPeerInfo,
+	listMasternodes: listMasternodes,
 	getChainTxStats: getChainTxStats
 };

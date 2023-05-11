@@ -211,6 +211,85 @@ router.get("/peers", function(req, res, next) {
 	});
 });
 
+function searchStringInArray (str, strArray) {
+    for (var j=0; j<strArray.length; j++) {
+        if (strArray[j].match(str)) return j;
+    }
+    return -1;
+}
+
+router.get("/masternodes", function(req, res, next) {
+	coreApi.listMasternodesSummary().then(function(mnSummary) {
+		res.locals.mnSummary = mnSummary;
+		
+      //coreApi.getBlockchainInfo().then(function(getblockchaininfo) {
+		//blockcnt =  getblockchaininfo.blocks; //ok
+		coreApi.getBlockCount().then(function(getblockcount) {
+		  blockcnt =  getblockcount; //getblockcount.toString();
+						
+		coreApi.getPeerSummary().then(function(peerSummary) {
+			res.locals.getpeerinfo = peerSummary.getpeerinfo;
+			
+			//console.log("######" + process.env.BTCEXP_HOST);
+			for (var i = 0; i < mnSummary.listmasternodes.length; i++) {
+				var ipWithPort = mnSummary.listmasternodes[i].ip;
+				//console.log("====" + typeof(ipWithPort) + "  "+ ipWithPort);
+				var mn_ip = ipWithPort.substring(0, ipWithPort.lastIndexOf(":")).trim();
+				
+				//console.log("====" + blockcnt);
+				if (mn_ip==process.env.BTCEXP_HOST){ //"185.104.248.5"					
+						Object.assign(mnSummary.listmasternodes[i], {lastblock: blockcnt});
+				}
+				else{
+					jj = -1;
+					for (var j = 0; j < res.locals.getpeerinfo.length; j++) {
+						if (res.locals.getpeerinfo[j].hasOwnProperty("addr") && res.locals.getpeerinfo[j].addr.indexOf(mn_ip)>-1){
+							jj=j;
+							Object.assign(mnSummary.listmasternodes[i], {lastblock: res.locals.getpeerinfo[jj].synced_blocks});
+							break;
+						} 
+					}
+				}
+			
+				if (jj == -1)
+					Object.assign(mnSummary.listmasternodes[i], {lastblock: -1});
+			}
+		
+			var mnIps = [];
+			for (var i = 0; i < mnSummary.listmasternodes.length; i++) {
+				var ipWithPort = mnSummary.listmasternodes[i].addr;
+				if (ipWithPort.lastIndexOf(":") >= 0) {
+					var ip = ipWithPort.substring(0, ipWithPort.lastIndexOf(":"));
+					if (ip.trim().length > 0) {
+						mnIps.push(ip.trim());
+					}
+				}
+			}
+
+			if (mnIps.length > 0) {
+				utils.geoLocateIpAddresses(mnIps).then(function(results) {
+					res.locals.mnIpSummary = results;
+
+					res.render("masternodes");
+
+					next();
+				});
+			} else {
+				res.render("masternodes");
+
+				next();
+			}
+		}).catch(function(err) {
+			res.locals.userMessage = "Error: " + err;
+
+			res.render("masternodes");
+
+			next();
+		});
+	});
+  });	
+});
+
 router.post("/connect", function(req, res, next) {
 	var host = req.body.host;
 	var port = req.body.port;

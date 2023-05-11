@@ -134,7 +134,9 @@ function shouldCacheTransaction(tx) {
 	return true;
 }
 
-
+function getBlockCount() {
+	return tryCacheThenRpcApi(miscCache, "getBlockCount", 10000, rpcApi.getBlockCount);
+}
 
 function getBlockchainInfo() {
 	return tryCacheThenRpcApi(miscCache, "getBlockchainInfo", 10000, rpcApi.getBlockchainInfo);
@@ -309,6 +311,20 @@ function getPeerSummary() {
 
 			resolve(result);
 
+		}).catch(function(err) {
+			reject(err);
+		});
+	});
+}
+
+function listMasternodesSummary() {
+	return new Promise(function(resolve, reject) {
+		tryCacheThenRpcApi(miscCache, "listmasternodes", 1000, rpcApi.listMasternodes).then(function(listmasternodes) {
+			var result = {};
+			result.listmasternodes = listmasternodes;
+
+			resolve(result);
+			
 		}).catch(function(err) {
 			reject(err);
 		});
@@ -866,6 +882,7 @@ function logCacheSizes() {
 module.exports = {
 	getGenesisBlockHash: getGenesisBlockHash,
 	getGenesisCoinbaseTransactionId: getGenesisCoinbaseTransactionId,
+	getBlockCount: getBlockCount,
 	getBlockchainInfo: getBlockchainInfo,
 	getNetworkInfo: getNetworkInfo,
 	getNetTotals: getNetTotals,
@@ -885,6 +902,7 @@ module.exports = {
 	getAddress: getAddress,
 	logCacheSizes: logCacheSizes,
 	getPeerSummary: getPeerSummary,
+	listMasternodesSummary: listMasternodesSummary,
 	getChainTxStats: getChainTxStats,
 	getMempoolDetails: getMempoolDetails,
 	getTxCountStats: getTxCountStats

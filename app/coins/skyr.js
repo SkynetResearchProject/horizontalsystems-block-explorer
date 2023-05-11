@@ -56,7 +56,7 @@ module.exports = {
 	siteTitle:"SkynetResearch Explorer",
 	siteDescriptionHtml:"<b>SkynetResearch Explorer</b> is <a href='https://github.com/skynetResearchProject/horizontalsystems-block-explorer). If you run your own [SkynetResearch Full Node](https://sexplorer.kynet-coin.com), **SKYR Explorer** can easily run alongside it, communicating via RPC calls. See the project [ReadMe](https://github.com/skynetResearchProject/horizontalsystems-block-explorer) for a list of features and instructions for running.",
 	nodeTitle:"SkynetResearch Full Node",
-	nodeUrl:"https://sexplorer.kynet-coin.com",
+	nodeUrl:"http://explorer.skynet-coin.com",
 	demoSiteUrl: "",
 	miningPoolsConfigUrls:[],
 	maxBlockWeight: 10000000000,

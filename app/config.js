@@ -7,6 +7,8 @@ var credentials = require("./credentials.js");
 
 var currentCoin = process.env.BTCEXP_COIN || "BTC";
 
+//var coinType = process.env.BTCEXP_COIN_TYPE || "POS";
+
 var rpcCred = credentials.rpc;
 
 if (rpcCred.cookie && !rpcCred.username && !rpcCred.password && fs.existsSync(rpcCred.cookie)) {
@@ -138,19 +140,20 @@ module.exports = {
 			txOutputMaxDefaultDisplay:10
 		},
 		header:{
-			showToolsSubheader:(process.env.BTCEXP_UI_SHOW_TOOLS_SUBHEADER == "true"),
-			dropdowns:[
-				//{
-					//title:"Networks",
-					//links:[
-						//{name: "Bitcoin", url:"https://btc.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
-						//{name: "Bitcoin (Testnet)", url:"http://btc-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
-						//{name: "Bitcoin Cash", url:"https://bch.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
-						//{name: "Bitcoin Cash (Testnet)", url:"http://bch-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
-						//{name: "Ethereum", url:"https://eth.horizontalsystems.xyz", imgUrl:"/img/logo/eth.svg"},
-					//]
-				//}
+			//showToolsSubheader:(process.env.BTCEXP_UI_SHOW_TOOLS_SUBHEADER == "true"),
+			dropdowns: process.env.BTCEXP_UI_SHOW_TOOLS_SUBHEADER==1 ? [
+				{
+					title:"Networks",
+					links:[
+						{name: "Bitcoin", url:"https://btc.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
+						{name: "Bitcoin (Testnet)", url:"http://btc-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/btc.svg"},
+						{name: "Bitcoin Cash", url:"https://bch.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
+						{name: "Bitcoin Cash (Testnet)", url:"http://bch-testnet.horizontalsystems.xyz", imgUrl:"/img/logo/bch.svg"},
+						{name: "Ethereum", url:"https://eth.horizontalsystems.xyz", imgUrl:"/img/logo/eth.svg"},
+					]
+				}
 			]
+			: []
 		}
 	},
 

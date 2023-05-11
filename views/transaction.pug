@@ -188,7 +188,7 @@ block content
 										span.ml-2(title=(utils.formatCurrencyAmount(totalInputValue, currencyFormatType) + " - " + utils.formatCurrencyAmount(totalOutputValue, currencyFormatType)), data-toggle="tooltip")
 											i(class="fas fa-ellipsis-h")
 
-							if (feePaid > 0)
+							if (feePaid > 0 && coinConfig.coinType != "POS")
 								div(class="row")
 									div(class="summary-table-label") Fee Rate
 									div(class="summary-table-content monospace")
