@@ -38,7 +38,7 @@ Copy content from [./btc-explorer.com.conf](./btc-explorer.com.conf) into `/etc/
 
     //it is install
     sudo mv node /usr/local
-    sudo ln -s /usr/local/node/bin/node /usr/bin/nodejs
+    sudo ln -s /usr/local/node/bin/node /usr/bin/node
     sudo ln -s /usr/local/node/bin/npm /usr/bin/npm
     sudo ln -s /usr/local/node/bin/npx /usr/bin/npx
 	
@@ -86,10 +86,10 @@ Copy content from [./btc-explorer.com.conf](./btc-explorer.com.conf) into `/etc/
 	
     /usr/local/node/bin/pm2 start bin/www --name "btc-rpc-explorer"
 	
-	service ngnix start                 # or  service ngnix restart
+	service nginx start                 # or  service nginx restart
 
 	#stop:
 	
 	/usr/local/node/bin/pm2 stop bin/www --name "btc-rpc-explorer"
 	
-	service ngnix stop
+	service nginx stop

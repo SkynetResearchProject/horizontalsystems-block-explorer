@@ -1,3 +1,5 @@
+include ./includes/shared-mixins.pug
+
 doctype html
 html(lang="en")
 	head
@@ -61,6 +63,10 @@ html(lang="en")
 							li(class="nav-item dropdown")
 								a(href="/peers", class="nav-link")
 									span Peers
+									
+							li(class="nav-item dropdown")
+								a(href="/api/docs", class="nav-link")
+									span Api
 									
 							if (config.site.header.dropdowns)
 								each dropdown, ddIndex in config.site.header.dropdowns

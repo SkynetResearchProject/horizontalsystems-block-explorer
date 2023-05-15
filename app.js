@@ -39,6 +39,7 @@ var auth = require('./app/auth.js');
 var crawlerBotUserAgentStrings = [ "Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "YandexBot", "Sogou", "Exabot", "facebot", "ia_archiver" ];
 
 var baseActionsRouter = require('./routes/baseActionsRouter');
+var apiActionsRouter = require('./routes/apiRouter.js');
 
 var app = express();
 
@@ -515,6 +516,8 @@ app.use(csurf(), (req, res, next) => {
 });
 
 app.use('/', baseActionsRouter);
+app.use('/' + 'api/', apiActionsRouter);
+
 
 app.use(function(req, res, next) {
 	var time = Date.now() - req.startTime;

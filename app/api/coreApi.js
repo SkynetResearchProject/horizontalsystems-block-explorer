@@ -12,6 +12,15 @@ var redisCache = require("../redisCache.js");
 var rpcApi = require("./rpcApi.js");
 //var rpcApi = require("./mockApi.js");
 
+const ONE_SEC = 1000;
+const ONE_MIN = 60 * ONE_SEC;
+const ONE_HR = 60 * ONE_MIN;
+const FIFTEEN_MIN = 15 * ONE_MIN;
+const ONE_DAY = 24 * ONE_HR;
+const ONE_YR = 365 * ONE_DAY;
+const SECONDS_PER_MIN = 60;
+const SECONDS_PER_HOUR = SECONDS_PER_MIN * 60;
+const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
 function onCacheEvent(cacheType, hitOrMiss, cacheKey) {
 	//console.log(`cache.${cacheType}.${hitOrMiss}: ${cacheKey}`);
@@ -879,6 +888,56 @@ function logCacheSizes() {
 	stream.end();
 }
 
+function getBlockHashByHeight(blockHeight) {
+	return tryCacheThenRpcApi(blockCache, "getBlockHashByHeight-" + blockHeight, ONE_HR, function() {
+		return rpcApi.getBlockHashByHeight(blockHeight);
+	});
+}
+
+function getBlockHeaderByHash(hash) {
+	return tryCacheThenRpcApi(blockCache, "getBlockHeaderByHash-" + hash, FIFTEEN_MIN, function() {
+		return rpcApi.getBlockHeaderByHash(hash);
+	});
+}
+
+const utxoSetFileCache = utils.fileCache(config.filesystemCacheDir, `utxo-set`);
+
+function getUtxoSetSummary(useCoinStatsIndexIfAvailable=true, useCacheIfAvailable=true) {
+	return tryCacheThenRpcApi(miscCache, "getUtxoSetSummary", FIFTEEN_MIN, async () => {
+		let utxoSetSummary = utxoSetFileCache.tryLoadJson();
+
+		if (utxoSetSummary && useCacheIfAvailable) {
+			return utxoSetSummary;
+
+		} else {
+			utxoSetSummary = await rpcApi.getUtxoSetSummary(useCoinStatsIndexIfAvailable);
+
+			if (utxoSetSummary && utxoSetSummary.total_amount) {
+				if (useCoinStatsIndexIfAvailable && global.getindexinfo && global.getindexinfo.coinstatsindex) {
+					utxoSetSummary.usingCoinStatsIndex = true;
+
+				} else {
+					utxoSetSummary.usingCoinStatsIndex = false;
+				}
+
+				utxoSetSummary.lastUpdated = Date.now();
+
+				try {
+					utxoSetFileCache.writeJson(utxoSetSummary);
+					
+				} catch (e) {
+					utils.logError("h32uheifehues", e);
+				}
+
+				return utxoSetSummary;
+
+			} else {
+				return null;
+			}
+		}
+	});
+}
+
 module.exports = {
 	getGenesisBlockHash: getGenesisBlockHash,
 	getGenesisCoinbaseTransactionId: getGenesisCoinbaseTransactionId,
@@ -905,5 +964,9 @@ module.exports = {
 	listMasternodesSummary: listMasternodesSummary,
 	getChainTxStats: getChainTxStats,
 	getMempoolDetails: getMempoolDetails,
-	getTxCountStats: getTxCountStats
+	getTxCountStats: getTxCountStats,
+	
+	getBlockHashByHeight: getBlockHashByHeight,
+	getBlockHeaderByHash: getBlockHeaderByHash,
+	getUtxoSetSummary: getUtxoSetSummary
 };

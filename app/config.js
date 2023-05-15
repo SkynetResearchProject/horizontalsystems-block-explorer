@@ -7,7 +7,7 @@ var credentials = require("./credentials.js");
 
 var currentCoin = process.env.BTCEXP_COIN || "BTC";
 
-//var coinType = process.env.BTCEXP_COIN_TYPE || "POS";
+var coinType = process.env.BTCEXP_COIN_TYPE || "POS";
 
 var rpcCred = credentials.rpc;
 
@@ -59,6 +59,8 @@ module.exports = {
 	noInmemoryRpcCache: (process.env.BTCEXP_NO_INMEMORY_RPC_CACHE.toLowerCase() == "true"),
 
 	rpcConcurrency: (process.env.BTCEXP_RPC_CONCURRENCY || 10),
+	
+	filesystemCacheDir: (process.env.BTCEXP_FILESYSTEM_CACHE_DIR || path.join(process.cwd(),"./cache")),
 
 	rpcBlacklist:
 	  process.env.BTCEXP_RPC_ALLOWALL  ? []

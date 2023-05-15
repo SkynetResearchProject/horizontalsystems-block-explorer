@@ -33,6 +33,7 @@
     "dotenv": "^6.2.0",
     "electrum-client": "github:chaintools/node-electrum-client#43a999036f9c5",
     "express": "^4.16.4",
+    "express-async-handler": "^1.2.0",
     "express-session": "1.15.6",
     "influx": "5.0.7",
     "jstransformer-markdown-it": "^2.0.0",

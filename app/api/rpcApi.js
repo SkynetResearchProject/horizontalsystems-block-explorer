@@ -200,6 +200,22 @@ function getRpcDataWithParams(request) {
 	});
 }
 
+function getBlockHashByHeight(blockHeight) {
+	return getRpcDataWithParams({method:"getblockhash", parameters:[blockHeight]});
+}
+
+function getBlockHeaderByHash(blockhash) {
+	return getRpcDataWithParams({method:"getblockheader", parameters:[blockhash]});
+}
+
+function getUtxoSetSummary(useCoinStatsIndexIfAvailable=true) {
+	if (useCoinStatsIndexIfAvailable && global.getindexinfo && global.getindexinfo.coinstatsindex) {
+		return getRpcDataWithParams({method:"gettxoutsetinfo", parameters:["muhash"]});
+
+	} else {
+		return getRpcData("gettxoutsetinfo");
+	}
+}
 
 module.exports = {
 	getBlockCount:	getBlockCount,
@@ -218,5 +234,9 @@ module.exports = {
 	getAddress: getAddress,
 	getPeerInfo: getPeerInfo,
 	listMasternodes: listMasternodes,
-	getChainTxStats: getChainTxStats
+	getChainTxStats: getChainTxStats,
+	
+	getBlockHashByHeight: getBlockHashByHeight,
+	getBlockHeaderByHash: getBlockHeaderByHash,
+	getUtxoSetSummary: getUtxoSetSummary
 };

@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 var Decimal = require("decimal.js");
 var request = require("request");
 var qrcode = require("qrcode");
@@ -334,6 +336,43 @@ function getBlockTotalFeesFromCoinbaseTxAndBlockHeight(coinbaseTx, blockHeight) 
 	return totalOutput.minus(new Decimal(blockReward));
 }
 
+function estimatedSupply(height) {
+	const checkpoint = coinConfig.utxoSetCheckpointsByNetwork[global.activeBlockchain];
+
+	let checkpointHeight = 0;
+	let checkpointSupply = new Decimal(50);
+
+	if (checkpoint && checkpoint.height <= height) {
+		//console.log("using checkpoint");
+		checkpointHeight = checkpoint.height;
+		checkpointSupply = new Decimal(checkpoint.total_amount);
+	}
+
+	let halvingBlockInterval = coinConfig.halvingBlockIntervalsByNetwork[global.activeBlockchain];
+
+	let supply = checkpointSupply;
+
+	let i = checkpointHeight;
+	while (i < height) {
+		let nextHalvingHeight = halvingBlockInterval * Math.floor(i / halvingBlockInterval) + halvingBlockInterval;
+		
+		if (height < nextHalvingHeight) {
+			let heightDiff = height - i;
+
+			//console.log(`adding(${heightDiff}): ` + new Decimal(heightDiff).times(coinConfig.blockRewardFunction(i, global.activeBlockchain)));
+			return supply.plus(new Decimal(heightDiff).times(coinConfig.blockRewardFunction(i, global.activeBlockchain)));
+		}
+
+		let heightDiff = nextHalvingHeight - i;
+
+		supply = supply.plus(new Decimal(heightDiff).times(coinConfig.blockRewardFunction(i, global.activeBlockchain)));
+		
+		i += heightDiff;
+	}
+
+	return supply;
+}
+
 function refreshExchangeRates() {
 	if (!config.queryExchangeRates || config.privacyMode) {
 		return;
@@ -550,6 +589,52 @@ function buildQrCodeUrl(str, results) {
 	});
 }
 
+function asHash(value) {
+	return value.replace(/[^a-f0-9]/gi, "");
+}
+
+const fileCache = (cacheDir, cacheName, cacheVersion=1) => {
+	const filename = (version) => { return ((version > 1) ? [cacheName, `v${version}`].join("-") : cacheName) + ".json"; };
+	const filepath = `${cacheDir}/${filename(cacheVersion)}`;
+
+	if (cacheVersion > 1) {
+		// remove old versions
+		for (let i = 1; i < cacheVersion; i++) {
+			if (fs.existsSync(`${cacheDir}/${filename(i)}`)) {
+				fs.unlinkSync(`${cacheDir}/${filename(i)}`);
+			}
+		}
+	}
+
+	return {
+		tryLoadJson: () => {
+			if (fs.existsSync(filepath)) {
+				let rawData = fs.readFileSync(filepath);
+
+				try {
+					return JSON.parse(rawData);
+
+				} catch (e) {
+					logError("378y43edewe", e);
+
+					fs.unlinkSync(filepath);
+
+					return null;
+				}
+			}
+
+			return null;
+		},
+		writeJson: (obj) => {
+			if (!fs.existsSync(cacheDir)) {
+				fs.mkdirSync(cacheDir);
+			}
+
+			fs.writeFileSync(filepath, JSON.stringify(obj, null, 4));
+		}
+	};
+};
+
 
 module.exports = {
 	redirectToConnectPageIfNeeded: redirectToConnectPageIfNeeded,
@@ -577,5 +662,8 @@ module.exports = {
 	colorHexToRgb: colorHexToRgb,
 	colorHexToHsl: colorHexToHsl,
 	logError: logError,
-	buildQrCodeUrls: buildQrCodeUrls
+	buildQrCodeUrls: buildQrCodeUrls,
+	
+	asHash: asHash,
+	fileCache: fileCache
 };
