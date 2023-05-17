@@ -179,7 +179,7 @@ function logBlockStats() {
 					blockHeights.push(getblockchaininfo.blocks - i);
 				}
 			}
-
+			
 			coreApi.getBlocksByHeight(blockHeights).then(function(blocks) {
 				var points = [];
 
@@ -303,6 +303,13 @@ app.runOnStartup = function() {
 	coreApi.getNetworkInfo().then(function(getnetworkinfo) {
 		console.log(`Connected via RPC to node. Basic info: version=${getnetworkinfo.version}, subversion=${getnetworkinfo.subversion}, protocolversion=${getnetworkinfo.protocolversion}, services=${getnetworkinfo.localservices}`);
 
+		coreApi.getBlockchainInfo().then(function(getblockchaininfo) {
+			var blockHeights = [];
+			if (getblockchaininfo.blocks) {
+				global.activeBlockchain = getblockchaininfo.chain;
+			}
+		});
+			
 		if (global.influxdb != null) {
 			logNetworkStats();
 			setInterval(logNetworkStats, 1 * 60000);

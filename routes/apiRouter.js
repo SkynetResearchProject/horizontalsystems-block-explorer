@@ -21,7 +21,7 @@ const config = require("./../app/config.js");
 const utils = require('./../app/utils.js');
 const coreApi = require("./../app/api/coreApi.js");
 //const addressApi = require("./../app/api/addressApi.js");
-//const xyzpubApi = require("./../app/api/xyzpubApi.js");
+const xyzpubApi = require("./../app/api/xyzpubApi.js");
 const rpcApi = require("./../app/api/rpcApi.js");
 const apiDocs = require("./../docs/api.js");
 //const btcQuotes = require("./../app/coins/btcQuotes.js");
@@ -533,7 +533,8 @@ router.get("/xyzpub/:extendedPubkey", asyncHandler(async (req, res, next) => {
 		next();
 
 	} catch (err) {
-		res.locals.pageErrors.push(utils.logError("0923tygdusde", err));
+		//res.locals.pageErrors.push(utils.logError("0923tygdusde", err));
+		console.log("Error 0923tygdusde: " + err);
 
 		next();
 	}

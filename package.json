@@ -22,8 +22,9 @@
   "dependencies": {
     "async": "2.6.2",
     "basic-auth": "^2.0.1",
+    "bip32": "^4.0.0",
     "bitcoin-core": "2.0.0",
-    "bitcoinjs-lib": "3.3.2",
+    "bitcoinjs-lib": "^6.1.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "^1.4.4",
     "crypto-js": "3.1.9-1",
@@ -48,7 +49,8 @@
     "redis": "2.8.0",
     "request": "2.88.0",
     "serve-favicon": "^2.5.0",
-    "simple-git": "1.92.0"
+    "simple-git": "1.92.0",
+    "tiny-secp256k1": "^2.2.1"
   },
   "devDependencies": {
     "less": "3.8.0",

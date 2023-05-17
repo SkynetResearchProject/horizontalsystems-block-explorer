@@ -11,8 +11,9 @@
       "dependencies": {
         "async": "2.6.2",
         "basic-auth": "^2.0.1",
+        "bip32": "^4.0.0",
         "bitcoin-core": "2.0.0",
-        "bitcoinjs-lib": "3.3.2",
+        "bitcoinjs-lib": "^6.1.0",
         "body-parser": "~1.18.2",
         "cookie-parser": "^1.4.4",
         "crypto-js": "3.1.9-1",
@@ -22,6 +23,7 @@
         "dotenv": "^6.2.0",
         "electrum-client": "github:chaintools/node-electrum-client#43a999036f9c5",
         "express": "^4.16.4",
+        "express-async-handler": "^1.2.0",
         "express-session": "1.15.6",
         "influx": "5.0.7",
         "jstransformer-markdown-it": "^2.0.0",
@@ -36,7 +38,8 @@
         "redis": "2.8.0",
         "request": "2.88.0",
         "serve-favicon": "^2.5.0",
-        "simple-git": "1.92.0"
+        "simple-git": "1.92.0",
+        "tiny-secp256k1": "^2.2.1"
       },
       "bin": {
         "btc-rpc-explorer": "bin/cli.js"
@@ -45,6 +48,17 @@
         "less": "3.8.0",
         "npm-run-all": "^4.1.5"
       }
+    },
+    "node_modules/@noble/hashes": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/@noble/hashes/-/hashes-1.3.0.tgz",
+      "integrity": "sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==",
+      "funding": [
+        {
+          "type": "individual",
+          "url": "https://paulmillr.com/funding/"
+        }
+      ]
     },
     "node_modules/@opencensus/core": {
       "version": "0.0.9",
@@ -342,6 +356,17 @@
       "version": "2.1.2",
       "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz",
       "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
+    },
+    "node_modules/@scure/base": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/@scure/base/-/base-1.1.1.tgz",
+      "integrity": "sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==",
+      "funding": [
+        {
+          "type": "individual",
+          "url": "https://paulmillr.com/funding/"
+        }
+      ]
     },
     "node_modules/@tootallnate/once": {
       "version": "1.1.2",
@@ -728,14 +753,9 @@
       }
     },
     "node_modules/bech32": {
-      "version": "1.1.3",
-      "resolved": "https://registry.npmjs.org/bech32/-/bech32-1.1.3.tgz",
-      "integrity": "sha512-yuVFUvrNcoJi0sv5phmqc6P+Fl1HjRDRNOOkHY2X/3LBy2bIGNSFx4fZ95HMaXHupuS7cZR15AsvtmCIF4UEyg=="
-    },
-    "node_modules/bigi": {
-      "version": "1.4.2",
-      "resolved": "https://registry.npmjs.org/bigi/-/bigi-1.4.2.tgz",
-      "integrity": "sha1-nGZalfiLiwj8Bc/XMfVhhZ1yWCU="
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/bech32/-/bech32-2.0.0.tgz",
+      "integrity": "sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg=="
     },
     "node_modules/bignumber.js": {
       "version": "4.1.0",
@@ -753,12 +773,26 @@
         "node": ">=8"
       }
     },
-    "node_modules/bip66": {
-      "version": "1.1.5",
-      "resolved": "https://registry.npmjs.org/bip66/-/bip66-1.1.5.tgz",
-      "integrity": "sha1-AfqHSHhcpwlV1QESF9GzE5lpyiI=",
+    "node_modules/bip174": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/bip174/-/bip174-2.1.0.tgz",
+      "integrity": "sha512-lkc0XyiX9E9KiVAS1ZiOqK1xfiwvf4FXDDdkDq5crcDzOq+xGytY+14qCsqz7kCiy8rpN1CRNfacRhf9G3JNSA==",
+      "engines": {
+        "node": ">=8.0.0"
+      }
+    },
+    "node_modules/bip32": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/bip32/-/bip32-4.0.0.tgz",
+      "integrity": "sha512-aOGy88DDlVUhspIXJN+dVEtclhIsfAUppD43V0j40cPTld3pv/0X/MlrZSZ6jowIaQQzFwP8M6rFU2z2mVYjDQ==",
       "dependencies": {
-        "safe-buffer": "^5.0.1"
+        "@noble/hashes": "^1.2.0",
+        "@scure/base": "^1.1.1",
+        "typeforce": "^1.11.5",
+        "wif": "^2.0.6"
+      },
+      "engines": {
+        "node": ">=6.0.0"
       }
     },
     "node_modules/bitcoin-core": {
@@ -779,34 +813,22 @@
         "node": ">=4"
       }
     },
-    "node_modules/bitcoin-ops": {
-      "version": "1.4.1",
-      "resolved": "https://registry.npmjs.org/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz",
-      "integrity": "sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow=="
-    },
     "node_modules/bitcoinjs-lib": {
-      "version": "3.3.2",
-      "resolved": "https://registry.npmjs.org/bitcoinjs-lib/-/bitcoinjs-lib-3.3.2.tgz",
-      "integrity": "sha512-l5qqvbaK8wwtANPf6oEffykycg4383XgEYdia1rI7/JpGf1jfRWlOUCvx5TiTZS7kyIvY4j/UhIQ2urLsvGkzw==",
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/bitcoinjs-lib/-/bitcoinjs-lib-6.1.0.tgz",
+      "integrity": "sha512-eupi1FBTJmPuAZdChnzTXLv2HBqFW2AICpzXZQLniP0V9FWWeeUQSMKES6sP8isy/xO0ijDexbgkdEyFVrsuJw==",
       "dependencies": {
-        "bech32": "^1.1.2",
-        "bigi": "^1.4.0",
-        "bip66": "^1.1.0",
-        "bitcoin-ops": "^1.3.0",
-        "bs58check": "^2.0.0",
+        "bech32": "^2.0.0",
+        "bip174": "^2.1.0",
+        "bs58check": "^2.1.2",
         "create-hash": "^1.1.0",
-        "create-hmac": "^1.1.3",
-        "ecurve": "^1.0.0",
-        "merkle-lib": "^2.0.10",
-        "pushdata-bitcoin": "^1.0.1",
-        "randombytes": "^2.0.1",
-        "safe-buffer": "^5.0.1",
+        "ripemd160": "^2.0.2",
         "typeforce": "^1.11.3",
-        "varuint-bitcoin": "^1.0.4",
+        "varuint-bitcoin": "^1.1.2",
         "wif": "^2.0.1"
       },
       "engines": {
-        "node": ">=4.0.0"
+        "node": ">=8.0.0"
       }
     },
     "node_modules/blessed": {
@@ -1268,19 +1290,6 @@
         "sha.js": "^2.4.0"
       }
     },
-    "node_modules/create-hmac": {
-      "version": "1.1.7",
-      "resolved": "https://registry.npmjs.org/create-hmac/-/create-hmac-1.1.7.tgz",
-      "integrity": "sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==",
-      "dependencies": {
-        "cipher-base": "^1.0.3",
-        "create-hash": "^1.1.0",
-        "inherits": "^2.0.1",
-        "ripemd160": "^2.0.0",
-        "safe-buffer": "^5.0.1",
-        "sha.js": "^2.4.8"
-      }
-    },
     "node_modules/croner": {
       "version": "4.1.97",
       "resolved": "https://registry.npmjs.org/croner/-/croner-4.1.97.tgz",
@@ -1547,15 +1556,6 @@
         "safer-buffer": "^2.1.0"
       }
     },
-    "node_modules/ecurve": {
-      "version": "1.0.6",
-      "resolved": "https://registry.npmjs.org/ecurve/-/ecurve-1.0.6.tgz",
-      "integrity": "sha512-/BzEjNfiSuB7jIWKcS/z8FK9jNjmEWvUV2YZ4RLSmcDtP7Lq0m6FvDuSnJpBlDpGRpfRQeTLGLBI8H+kEv0r+w==",
-      "dependencies": {
-        "bigi": "^1.1.0",
-        "safe-buffer": "^5.0.1"
-      }
-    },
     "node_modules/ee-first": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
@@ -1786,6 +1786,11 @@
       "engines": {
         "node": ">= 0.10.0"
       }
+    },
+    "node_modules/express-async-handler": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/express-async-handler/-/express-async-handler-1.2.0.tgz",
+      "integrity": "sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w=="
     },
     "node_modules/express-session": {
       "version": "1.15.6",
@@ -2955,11 +2960,6 @@
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.1.tgz",
       "integrity": "sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E="
-    },
-    "node_modules/merkle-lib": {
-      "version": "2.0.10",
-      "resolved": "https://registry.npmjs.org/merkle-lib/-/merkle-lib-2.0.10.tgz",
-      "integrity": "sha1-grjbrnXieneFOItz+ddyXQ9vMyY="
     },
     "node_modules/methods": {
       "version": "1.1.2",
@@ -4228,14 +4228,6 @@
         "node": ">=6"
       }
     },
-    "node_modules/pushdata-bitcoin": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/pushdata-bitcoin/-/pushdata-bitcoin-1.0.1.tgz",
-      "integrity": "sha1-FZMdPNlnreUiBvUjqnMxrvfUOvc=",
-      "dependencies": {
-        "bitcoin-ops": "^1.3.0"
-      }
-    },
     "node_modules/qrcode": {
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/qrcode/-/qrcode-1.2.0.tgz",
@@ -4327,14 +4319,6 @@
       "integrity": "sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=",
       "engines": {
         "node": ">= 0.8"
-      }
-    },
-    "node_modules/randombytes": {
-      "version": "2.0.6",
-      "resolved": "https://registry.npmjs.org/randombytes/-/randombytes-2.0.6.tgz",
-      "integrity": "sha512-CIQ5OFxf4Jou6uOKe9t1AOgqpeU5fd70A8NPdHSGeYXqXsPe6peOwI0cUl88RWZ6sP1vPMV3avd/R6cZ5/sP1A==",
-      "dependencies": {
-        "safe-buffer": "^5.1.0"
       }
     },
     "node_modules/range-parser": {
@@ -5091,6 +5075,17 @@
         "url": "https://www.buymeacoffee.com/systeminfo"
       }
     },
+    "node_modules/tiny-secp256k1": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/tiny-secp256k1/-/tiny-secp256k1-2.2.1.tgz",
+      "integrity": "sha512-/U4xfVqnVxJXN4YVsru0E6t5wVncu2uunB8+RVR40fYUxkKYUPS10f+ePQZgFBoE/Jbf9H1NBveupF2VmB58Ng==",
+      "dependencies": {
+        "uint8array-tools": "0.0.7"
+      },
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
     "node_modules/to-fast-properties": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/to-fast-properties/-/to-fast-properties-1.0.3.tgz",
@@ -5262,6 +5257,14 @@
         "node": ">= 0.8"
       }
     },
+    "node_modules/uint8array-tools": {
+      "version": "0.0.7",
+      "resolved": "https://registry.npmjs.org/uint8array-tools/-/uint8array-tools-0.0.7.tgz",
+      "integrity": "sha512-vrrNZJiusLWoFWBqz5Y5KMCgP9W9hnjZHzZiZRT8oNAkq3d5Z5Oe76jAvVVSRh4U8GGR90N2X1dWtrhvx6L8UQ==",
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
     "node_modules/universalify": {
       "version": "0.1.2",
       "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
@@ -5313,9 +5316,9 @@
       }
     },
     "node_modules/varuint-bitcoin": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/varuint-bitcoin/-/varuint-bitcoin-1.1.0.tgz",
-      "integrity": "sha512-jCEPG+COU/1Rp84neKTyDJQr478/hAfVp5xxYn09QEH0yBjbmPeMfuuQIrp+BUD83hybtYZKhr5elV3bvdV1bA==",
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/varuint-bitcoin/-/varuint-bitcoin-1.1.2.tgz",
+      "integrity": "sha512-4EVb+w4rx+YfVM32HQX42AbbT7/1f5zwAYhIujKXKk8NQK+JfRVl3pqT3hjNn/L+RstigmGGKVwHA/P0wgITZw==",
       "dependencies": {
         "safe-buffer": "^5.1.1"
       }
@@ -5588,6 +5591,11 @@
     }
   },
   "dependencies": {
+    "@noble/hashes": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/@noble/hashes/-/hashes-1.3.0.tgz",
+      "integrity": "sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg=="
+    },
     "@opencensus/core": {
       "version": "0.0.9",
       "resolved": "https://registry.npmjs.org/@opencensus/core/-/core-0.0.9.tgz",
@@ -5820,6 +5828,11 @@
           "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
         }
       }
+    },
+    "@scure/base": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/@scure/base/-/base-1.1.1.tgz",
+      "integrity": "sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA=="
     },
     "@tootallnate/once": {
       "version": "1.1.2",
@@ -6135,14 +6148,9 @@
       }
     },
     "bech32": {
-      "version": "1.1.3",
-      "resolved": "https://registry.npmjs.org/bech32/-/bech32-1.1.3.tgz",
-      "integrity": "sha512-yuVFUvrNcoJi0sv5phmqc6P+Fl1HjRDRNOOkHY2X/3LBy2bIGNSFx4fZ95HMaXHupuS7cZR15AsvtmCIF4UEyg=="
-    },
-    "bigi": {
-      "version": "1.4.2",
-      "resolved": "https://registry.npmjs.org/bigi/-/bigi-1.4.2.tgz",
-      "integrity": "sha1-nGZalfiLiwj8Bc/XMfVhhZ1yWCU="
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/bech32/-/bech32-2.0.0.tgz",
+      "integrity": "sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg=="
     },
     "bignumber.js": {
       "version": "4.1.0",
@@ -6154,12 +6162,20 @@
       "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz",
       "integrity": "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
     },
-    "bip66": {
-      "version": "1.1.5",
-      "resolved": "https://registry.npmjs.org/bip66/-/bip66-1.1.5.tgz",
-      "integrity": "sha1-AfqHSHhcpwlV1QESF9GzE5lpyiI=",
+    "bip174": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/bip174/-/bip174-2.1.0.tgz",
+      "integrity": "sha512-lkc0XyiX9E9KiVAS1ZiOqK1xfiwvf4FXDDdkDq5crcDzOq+xGytY+14qCsqz7kCiy8rpN1CRNfacRhf9G3JNSA=="
+    },
+    "bip32": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/bip32/-/bip32-4.0.0.tgz",
+      "integrity": "sha512-aOGy88DDlVUhspIXJN+dVEtclhIsfAUppD43V0j40cPTld3pv/0X/MlrZSZ6jowIaQQzFwP8M6rFU2z2mVYjDQ==",
       "requires": {
-        "safe-buffer": "^5.0.1"
+        "@noble/hashes": "^1.2.0",
+        "@scure/base": "^1.1.1",
+        "typeforce": "^1.11.5",
+        "wif": "^2.0.6"
       }
     },
     "bitcoin-core": {
@@ -6177,30 +6193,18 @@
         "standard-error": "^1.1.0"
       }
     },
-    "bitcoin-ops": {
-      "version": "1.4.1",
-      "resolved": "https://registry.npmjs.org/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz",
-      "integrity": "sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow=="
-    },
     "bitcoinjs-lib": {
-      "version": "3.3.2",
-      "resolved": "https://registry.npmjs.org/bitcoinjs-lib/-/bitcoinjs-lib-3.3.2.tgz",
-      "integrity": "sha512-l5qqvbaK8wwtANPf6oEffykycg4383XgEYdia1rI7/JpGf1jfRWlOUCvx5TiTZS7kyIvY4j/UhIQ2urLsvGkzw==",
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/bitcoinjs-lib/-/bitcoinjs-lib-6.1.0.tgz",
+      "integrity": "sha512-eupi1FBTJmPuAZdChnzTXLv2HBqFW2AICpzXZQLniP0V9FWWeeUQSMKES6sP8isy/xO0ijDexbgkdEyFVrsuJw==",
       "requires": {
-        "bech32": "^1.1.2",
-        "bigi": "^1.4.0",
-        "bip66": "^1.1.0",
-        "bitcoin-ops": "^1.3.0",
-        "bs58check": "^2.0.0",
+        "bech32": "^2.0.0",
+        "bip174": "^2.1.0",
+        "bs58check": "^2.1.2",
         "create-hash": "^1.1.0",
-        "create-hmac": "^1.1.3",
-        "ecurve": "^1.0.0",
-        "merkle-lib": "^2.0.10",
-        "pushdata-bitcoin": "^1.0.1",
-        "randombytes": "^2.0.1",
-        "safe-buffer": "^5.0.1",
+        "ripemd160": "^2.0.2",
         "typeforce": "^1.11.3",
-        "varuint-bitcoin": "^1.0.4",
+        "varuint-bitcoin": "^1.1.2",
         "wif": "^2.0.1"
       }
     },
@@ -6574,19 +6578,6 @@
         "sha.js": "^2.4.0"
       }
     },
-    "create-hmac": {
-      "version": "1.1.7",
-      "resolved": "https://registry.npmjs.org/create-hmac/-/create-hmac-1.1.7.tgz",
-      "integrity": "sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==",
-      "requires": {
-        "cipher-base": "^1.0.3",
-        "create-hash": "^1.1.0",
-        "inherits": "^2.0.1",
-        "ripemd160": "^2.0.0",
-        "safe-buffer": "^5.0.1",
-        "sha.js": "^2.4.8"
-      }
-    },
     "croner": {
       "version": "4.1.97",
       "resolved": "https://registry.npmjs.org/croner/-/croner-4.1.97.tgz",
@@ -6807,15 +6798,6 @@
         "safer-buffer": "^2.1.0"
       }
     },
-    "ecurve": {
-      "version": "1.0.6",
-      "resolved": "https://registry.npmjs.org/ecurve/-/ecurve-1.0.6.tgz",
-      "integrity": "sha512-/BzEjNfiSuB7jIWKcS/z8FK9jNjmEWvUV2YZ4RLSmcDtP7Lq0m6FvDuSnJpBlDpGRpfRQeTLGLBI8H+kEv0r+w==",
-      "requires": {
-        "bigi": "^1.1.0",
-        "safe-buffer": "^5.0.1"
-      }
-    },
     "ee-first": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
@@ -7000,6 +6982,11 @@
           "integrity": "sha512-zhSCtt8v2NDrRlPQpCNtw/heZLtfUDqxBM1udqikb/Hbk52LK4nQSwr10u77iopCW5LsyHpuXS0GnEc48mLeew=="
         }
       }
+    },
+    "express-async-handler": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/express-async-handler/-/express-async-handler-1.2.0.tgz",
+      "integrity": "sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w=="
     },
     "express-session": {
       "version": "1.15.6",
@@ -7898,11 +7885,6 @@
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.1.tgz",
       "integrity": "sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E="
-    },
-    "merkle-lib": {
-      "version": "2.0.10",
-      "resolved": "https://registry.npmjs.org/merkle-lib/-/merkle-lib-2.0.10.tgz",
-      "integrity": "sha1-grjbrnXieneFOItz+ddyXQ9vMyY="
     },
     "methods": {
       "version": "1.1.2",
@@ -8876,14 +8858,6 @@
       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz",
       "integrity": "sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A=="
     },
-    "pushdata-bitcoin": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/pushdata-bitcoin/-/pushdata-bitcoin-1.0.1.tgz",
-      "integrity": "sha1-FZMdPNlnreUiBvUjqnMxrvfUOvc=",
-      "requires": {
-        "bitcoin-ops": "^1.3.0"
-      }
-    },
     "qrcode": {
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/qrcode/-/qrcode-1.2.0.tgz",
@@ -8959,14 +8933,6 @@
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/random-bytes/-/random-bytes-1.0.0.tgz",
       "integrity": "sha1-T2ih3Arli9P7lYSMMDJNt11kNgs="
-    },
-    "randombytes": {
-      "version": "2.0.6",
-      "resolved": "https://registry.npmjs.org/randombytes/-/randombytes-2.0.6.tgz",
-      "integrity": "sha512-CIQ5OFxf4Jou6uOKe9t1AOgqpeU5fd70A8NPdHSGeYXqXsPe6peOwI0cUl88RWZ6sP1vPMV3avd/R6cZ5/sP1A==",
-      "requires": {
-        "safe-buffer": "^5.1.0"
-      }
     },
     "range-parser": {
       "version": "1.2.0",
@@ -9551,6 +9517,14 @@
       "integrity": "sha512-I3pfMW2vue53u+X08BNxaJieaHkRoMMKjWetY9lbYJeWFaeWPO6P4FkNc4XOCX8F9vbQ0HqQ25RJoz3U/B7liw==",
       "optional": true
     },
+    "tiny-secp256k1": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/tiny-secp256k1/-/tiny-secp256k1-2.2.1.tgz",
+      "integrity": "sha512-/U4xfVqnVxJXN4YVsru0E6t5wVncu2uunB8+RVR40fYUxkKYUPS10f+ePQZgFBoE/Jbf9H1NBveupF2VmB58Ng==",
+      "requires": {
+        "uint8array-tools": "0.0.7"
+      }
+    },
     "to-fast-properties": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/to-fast-properties/-/to-fast-properties-1.0.3.tgz",
@@ -9685,6 +9659,11 @@
         "random-bytes": "~1.0.0"
       }
     },
+    "uint8array-tools": {
+      "version": "0.0.7",
+      "resolved": "https://registry.npmjs.org/uint8array-tools/-/uint8array-tools-0.0.7.tgz",
+      "integrity": "sha512-vrrNZJiusLWoFWBqz5Y5KMCgP9W9hnjZHzZiZRT8oNAkq3d5Z5Oe76jAvVVSRh4U8GGR90N2X1dWtrhvx6L8UQ=="
+    },
     "universalify": {
       "version": "0.1.2",
       "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
@@ -9723,9 +9702,9 @@
       }
     },
     "varuint-bitcoin": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/varuint-bitcoin/-/varuint-bitcoin-1.1.0.tgz",
-      "integrity": "sha512-jCEPG+COU/1Rp84neKTyDJQr478/hAfVp5xxYn09QEH0yBjbmPeMfuuQIrp+BUD83hybtYZKhr5elV3bvdV1bA==",
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/varuint-bitcoin/-/varuint-bitcoin-1.1.2.tgz",
+      "integrity": "sha512-4EVb+w4rx+YfVM32HQX42AbbT7/1f5zwAYhIujKXKk8NQK+JfRVl3pqT3hjNn/L+RstigmGGKVwHA/P0wgITZw==",
       "requires": {
         "safe-buffer": "^5.1.1"
       }

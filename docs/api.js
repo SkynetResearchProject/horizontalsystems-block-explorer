@@ -97,7 +97,7 @@ module.exports = {
 
 
 
-		/*// xyz-pubs
+		// xyz-pubs
 		{
 			"category":"xpubs",
 			"url":"/xyzpub/$XPUB",
@@ -119,7 +119,7 @@ module.exports = {
 			},
 			"testUrl":"/xyzpub/addresses/xpub6EuV33a2DXxAhoJTRTnr8qnysu81AA4YHpLY6o8NiGkEJ8KADJ35T64eJsStWsmRf1xXkEANVjXFXnaUKbRtFwuSPCLfDdZwYNZToh4LBCd"
 		},
-		{
+		/*{
 			"category":"xpubs",
 			"url":"/xyzpub/txids/$XPUB",
 			"desc":"Returns a list of transaction IDs associated with the given [xyz]pub.",
