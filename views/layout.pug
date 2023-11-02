@@ -81,10 +81,10 @@ html(lang="en")
 													span  #{dropdownLink.name}
 
 
-						form(method="post", action="/search", class="form-inline mr-3")
+						form(method="post", action="/search", class="form-inline mr-1")
 							input(type="hidden", name="_csrf", value=csrfToken)
 							div(class="input-group input-group-sm input-group-filter")
-								input(type="text", class="form-control form-control-sm", name="query", placeholder="Block Height/Hash, TxId or Address", value=(query))
+								input(type="text", class="form-control form-control-sm", name="query", placeholder="Block Height/Hash, TxId or Address", value=(query), style="width: 515px;")
 								div(class="input-group-append")
 									button(type="submit", class="btn btn-yellow")
 										i(class="fas fa-search")
@@ -111,9 +111,14 @@ html(lang="en")
 				div(class="row")
 					div(class="col-md-5")
 						dl
-							dt Source
+							dt
 							dd
-								a(href="https://github.com/skynetResearchProject/horizontalsystems-block-explorer") github.com/skynetResearchProject/horizontalsystems-block-explorer
+								<a  href="https://github.com/skynetResearchProject/horizontalsystems-block-explorer" target="_blank" alt="SkynetResearch Github" title="" data-toggle="tooltip" data-placement="top" style="font-size: 30.52px;" data-original-title="SkynetResearch Github"><img src="/img/github.png" style="width: 30.52px; height: 30.52px;"></a>
+								<a href="https://t.me/Skynet_Research_coin" target="_blank" alt="SkynetResearch Telegram" title="" data-toggle="tooltip" data-placement="top" style="font-size: 30.52px;" data-original-title="SkynetResearch Telegram">	<img src="/img/telegram.png" style="width: 30.52px; height: 30.52px;"></a>
+								<a href="https://coinpaprika.com/coin/skyr-skynet-research-coin-skyrcoin/" target="_blank" alt="SkynetResearch Coinpaprica" title="" data-toggle="tooltip" data-placement="top" style="font-size: 30.52px;" data-original-title="Coinpaprica Website"><img src="/img/coinpaprika-logo-ico.png" style="width: 30.52px; height: 30.52px;"></a>
+								<a href="https://skynet-coin.com/" target="_blank" alt="SkynetResearch Website" title="" data-toggle="tooltip" data-placement="top" style="font-size: 30.52px;" data-original-title="SkynetResearch Website"><img src="/img/external.png" style="width: 30.52px; height: 30.52px;"></a>
+								<a href="https://exchange-assets.com/ru/?market=skyr_usdt" target="_blank" alt="Exchange Assets Website" title="" data-toggle="tooltip" data-placement="top" style="font-size: 30.52px;" data-original-title="Exchange Assets Website"><img src="/img/assets32px.png" style="width: 30.52px; height: 30.52px;"></a>
+								<a href="https://www.occe.io" target="_blank" alt="Occe Exchange Website" title="" data-toggle="tooltip" data-placement="top"  style="font-size: 30.52px;" data-original-title="Occe Exchange Website"><img src="/img/occe-logo.svg" style="width: height: 30.52px;"></a>
 
 								if (global.sourcecodeProjectMetadata)
 									div(class="mt-2")
@@ -154,8 +159,9 @@ html(lang="en")
 					div(class="col-md-7 text-md-right")
 						dl
 							dd
-								span (c) Horizontal Systems DAO
 								br
+								span (c) Horizontal Systems DAO
+								//br
 								//- a(href="http://horizontalsystems.io/")
 									span www.horizontalsystems.io
 
