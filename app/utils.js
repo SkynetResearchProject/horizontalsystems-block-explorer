@@ -226,13 +226,13 @@ function logAppStats() {
 
 		points.push({
 			measurement:`app.memory_usage`,
-			tags:{app:("btc-rpc-explorer." + global.config.coin)},
+			tags:{app:("skyr-rpc-explorer." + global.config.coin)},
 			fields:process.memoryUsage()
 		});
 
 		points.push({
 			measurement:`app.uptime`,
-			tags:{app:("btc-rpc-explorer." + global.config.coin)},
+			tags:{app:("skyr-rpc-explorer." + global.config.coin)},
 			fields:{value:Math.floor(process.uptime())}
 		});
 

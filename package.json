@@ -1,6 +1,6 @@
 {
-  "name": "btc-rpc-explorer",
-  "version": "1.0.2",
+  "name": "skyr-rpc-explorer",
+  "version": "1.1.0",
   "description": "Explorer for Bitcoin and RPC-compatible blockchains",
   "private": false,
   "bin": "bin/cli.js",
@@ -13,11 +13,11 @@
     "litecoin",
     "blockchain"
   ],
-  "author": "Dan Janosik <dan@47.io>",
+  "author": "SkynetResearchProject",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/horizontalsystems/block-explorer.git"
+    "url": "git+https://github.com/SkynetResearchProject/horizontalsystems-block-explorer.git"
   },
   "dependencies": {
     "async": "2.6.2",

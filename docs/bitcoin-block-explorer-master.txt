@@ -41,8 +41,8 @@
 ## Инструкции
 
 ```bash
-npm install -g btc-rpc-explorer
-btc-rpc-explorer
+npm install -g skyr-rpc-explorer
+skyr-rpc-explorer
 ```
 
 Если вы работаете в основной сети с каталогом данных и портом по умолчанию, это должно сработать.
@@ -54,28 +54,28 @@ btc-rpc-explorer
 ### Конфигурация
 
 Параметры конфигурации могут быть переданы как переменные среды
-или заданы в файле env в `~/.config/btc-rpc-explorer.env`
+или заданы в файле env в `~/.config/skyr-rpc-explorer.env`
 или в файле`.env` в рабочем каталоге обозревателя.
 См. шаблон файла конфигурации [.env-sample](.env-sample) для изучения списка опций и подробностей форматирования `.env`.
 
 Вы также можете передавать параметры в качестве аргументов CLI, например:
 
 ```bash
-btc-rpc-explorer --port 8080 --bitcoind-port 18443 --bitcoind-cookie ~/.bitcoin/regtest/.cookie
+skyr-rpc-explorer --port 8080 --bitcoind-port 18443 --bitcoind-cookie ~/.bitcoin/regtest/.cookie
 ```
 
-См. команду `btc-rpc-explorer --help` для получения полного списка опций CLI.
+См. команду `skyr-rpc-explorer --help` для получения полного списка опций CLI.
 
 ## Запустить через Docker
 
-1. `docker build -t btc-rpc-explorer.`
-2. `docker run -p 3002:3002 -it btc-rpc-explorer`
+1. `docker build -t skyr-rpc-explorer.`
+2. `docker run -p 3002:3002 -it skyr-rpc-explorer`
 
-1. `docker build -t btc-rpc-explorer .`
-2. `docker run -p 3002:3002 -it btc-rpc-explorer`
+1. `docker build -t skyr-rpc-explorer .`
+2. `docker run -p 3002:3002 -it skyr-rpc-explorer`
 
-[npm-ver-img]: https://img.shields.io/npm/v/btc-rpc-explorer.svg?style=flat
-[npm-ver-url]: https://www.npmjs.com/package/btc-rpc-explorer
-[npm-dl-img]: http://img.shields.io/npm/dm/btc-rpc-explorer.svg?style=flat
-[npm-dl-url]: https://npmcharts.com/compare/btc-rpc-explorer?minimal=true
+[npm-ver-img]: https://img.shields.io/npm/v/skyr-rpc-explorer.svg?style=flat
+[npm-ver-url]: https://www.npmjs.com/package/skyr-rpc-explorer
+[npm-dl-img]: http://img.shields.io/npm/dm/skyr-rpc-explorer.svg?style=flat
+[npm-dl-url]: https://npmcharts.com/compare/skyr-rpc-explorer?minimal=true
 

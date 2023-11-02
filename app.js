@@ -7,7 +7,7 @@ var path = require('path');
 var dotenv = require("dotenv");
 var fs = require('fs');
 
-var configPaths = [ path.join(os.homedir(), '.config', 'btc-rpc-explorer.env'), path.join(process.cwd(), '.env') ];
+var configPaths = [ path.join(os.homedir(), '.config', 'skyr-rpc-explorer.env'), path.join(process.cwd(), '.env') ];
 configPaths.filter(fs.existsSync).forEach(path => {
 	console.log('Loading env file:', path);
 	dotenv.config({ path });
@@ -81,7 +81,7 @@ process.on("unhandledRejection", (reason, p) => {
 		var points = [];
 		points.push({
 			measurement:`express.unhandled_rejection`,
-			tags:{app:("btc-rpc-explorer." + global.config.coin)},
+			tags:{app:("skyr-rpc-explorer." + global.config.coin)},
 			fields:{count:1}
 		});
 
@@ -534,7 +534,7 @@ app.use(function(req, res, next) {
 		var points = [];
 		points.push({
 			measurement:`express.request`,
-			tags:{app:("btc-rpc-explorer." + global.config.coin), host:req.hostname, path:req.path, userAgent:req.headers['user-agent']},
+			tags:{app:("skyr-rpc-explorer." + global.config.coin), host:req.hostname, path:req.path, userAgent:req.headers['user-agent']},
 			fields:{count:1, duration:time, memdiff:memdiff}
 		});
 

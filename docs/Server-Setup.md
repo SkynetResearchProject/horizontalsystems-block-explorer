@@ -18,10 +18,10 @@ Copy content from [./btc-explorer.com.conf](./btc-explorer.com.conf) into `/etc/
     openssl dhparam -out dhparam.pem 4096
     cd /home/bitcoin
     git clone https://github.com/SkynetResearchProject/horizontalsystems-block-explorer.git
-    cd /home/bitcoin/btc-rpc-explorer
+    cd /home/bitcoin/skyr-rpc-explorer
     npm install
     npm run build
-    pm2 start bin/www --name "btc-rpc-explorer"
+    pm2 start bin/www --name "skyr-rpc-explorer"
 
 	
 	
@@ -84,12 +84,12 @@ Copy content from [./btc-explorer.com.conf](./btc-explorer.com.conf) into `/etc/
 	
     #start:
 	
-    /usr/local/node/bin/pm2 start bin/www --name "btc-rpc-explorer"
+    /usr/local/node/bin/pm2 start bin/www --name "skyr-rpc-explorer"
 	
 	service nginx start                 # or  service nginx restart
 
 	#stop:
 	
-	/usr/local/node/bin/pm2 stop bin/www --name "btc-rpc-explorer"
+	/usr/local/node/bin/pm2 stop bin/www --name "skyr-rpc-explorer"
 	
 	service nginx stop

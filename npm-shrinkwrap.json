@@ -1,12 +1,12 @@
 {
-  "name": "btc-rpc-explorer",
-  "version": "1.0.2",
+  "name": "skyr-rpc-explorer",
+  "version": "1.0.3",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
-      "name": "btc-rpc-explorer",
-      "version": "1.0.2",
+      "name": "skyr-rpc-explorer",
+      "version": "1.0.3",
       "license": "MIT",
       "dependencies": {
         "async": "2.6.2",
@@ -42,7 +42,7 @@
         "tiny-secp256k1": "^2.2.1"
       },
       "bin": {
-        "btc-rpc-explorer": "bin/cli.js"
+        "skyr-rpc-explorer": "bin/cli.js"
       },
       "devDependencies": {
         "less": "3.8.0",
